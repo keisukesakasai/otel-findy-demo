@@ -10,6 +10,14 @@ exporters:
   googlecloud:
     metric:
       compression: gzip
+  otlp:
+    endpoint: tempo-distributed-distributor.observability.svc.cluster.local:4317
+    tls:
+      insecure: true  
+  prometheusremotewrite:
+    endpoint: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090/api/v1/write
+    resource_to_telemetry_conversion:
+      enabled: true
   debug:
     verbosity: detailed            
 
@@ -18,8 +26,8 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [googlecloud, debug]
+      exporters: [googlecloud, otlp, debug]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [googlecloud, debug]      
+      exporters: [googlecloud, prometheusremotewrite, debug]      

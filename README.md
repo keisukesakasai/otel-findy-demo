@@ -39,5 +39,20 @@ $ kubectl apply -f deployments/otelcol/otelcol.yaml
 
 ### OSS Observability Stack
 ```sh
+# Deploy Grafana Tempo
+$ helm repo add grafana https://grafana.github.io/helm-charts
+$ helm repo update
+$ helm install tempo-distributed grafana/tempo-distributed -n observability --version 1.9.1 --set traces.otlp.grpc.enabled=true --wait
 
+# Deploy Prometheus
+$ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+$ helm repo update
+$ helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n observability --version 58.0.0  \
+  --set prometheus.prometheusSpec.enableRemoteWriteReceiver=true \
+  --set 'prometheus.prometheusSpec.enableFeatures[0]=exemplar-storage' --wait
+
+# Deploy Grafana
+$ helm install grafana grafana/grafana -n observability --version 7.3.7 --wait
+# Show password of Dashboard
+$ kubectl get secret --namespace observability grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
