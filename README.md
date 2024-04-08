@@ -56,3 +56,11 @@ $ helm install grafana grafana/grafana -n observability --version 7.3.7 --wait
 # Show password of Dashboard
 $ kubectl get secret --namespace observability grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
+
+## Output
+
+### Google Cloud Stack
+<img src="fig/googlecloud.png" width=auto height="350">
+
+### Grafana & Prometheus Stack
+<img src="fig/grafana.png" width=auto height="350">
