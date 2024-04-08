@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-findy-demo
+  namespace: app
+  labels:
+    app.kubernetes.io/name: otel-findy-demo
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: otel-findy-demo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: otel-findy-demo
+    spec:
+      containers:
+      - image: ghcr.io/keisukesakasai/otel-findy-demo:latest
+        name: otel-findy-demo
+        env:
+        - name: SERVICE_NAME
+          value: "otel-findy-demo"
+        - name: OTEL_COLLECTOR_ENDPOINT
+          value: "otelcol.observability.svc.cluster.local:4317"
+        - name: OTEL_GO_X_EXEMPLAR
+          value: "true"
+        - name: OTEL_METRICS_EXEMPLAR_FILTER
+          value: "always_on"          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  otel-findy-demo
+  namespace: app  
+  labels:
+    app.kubernetes.io/name: otel-findy-demo
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app.kubernetes.io/name:  otel-findy-demo

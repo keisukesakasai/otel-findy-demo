@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  batch:
+
+exporters:
+  googlecloud:
+    metric:
+      compression: gzip
+  debug:
+    verbosity: detailed            
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [googlecloud, debug]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [googlecloud, debug]      
