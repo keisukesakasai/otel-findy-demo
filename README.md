@@ -3,6 +3,7 @@ OpenTelemetry Observability運用の実例 Lunch LT で使うデモ用のリポ�
 https://findy.connpass.com/event/313260/
 
 ## Requirements
+- OpenTelemetry Go SDK >= v1.24.0
 - Google Kubernetes Engine
 - Role
   - roles/cloudtrace.agent
