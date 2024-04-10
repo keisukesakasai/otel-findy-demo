@@ -2,6 +2,10 @@ OpenTelemetry Observability運用の実例 Lunch LT で使うデモ用のリポ�
 
 https://findy.connpass.com/event/313260/
 
+※ 注意
+
+デモ用のため取り扱いには注意してください。テレメトリーをフルサンプリングしていたり、OTel Collector の推奨構成（Memory Limiter Processor など）を取っていないなどがあります。
+
 ## Requirements
 - OpenTelemetry Go SDK >= v1.24.0
 - Google Kubernetes Engine
